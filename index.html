@@ -246,28 +246,26 @@
 <div class="ov hide" id="err">
   <div>
     <div style="font-size:20px;font-weight:900;margin-bottom:10px">엔진을 불러오지 못했습니다</div>
-    three.js CDN에 연결할 수 없습니다. 인터넷 연결을 확인한 뒤 새로고침 해주세요.
+    <code>vendor/three.global.js</code> 를 불러오지 못했습니다.<br/>
+    index.html 과 vendor 폴더를 같은 위치에 두고 다시 열어 주세요.
   </div>
 </div>
 
+<!-- three.js (로컬 사본). 일반 스크립트라서 파일을 직접 열어도(file://) 동작합니다 -->
+<script src="vendor/three.global.js"></script>
+
 <script>
-  // three.js(CDN) 로드 실패 시 안내
+  // three.js 로드 실패 시 안내
+  if (!window.THREE) document.getElementById('err').classList.remove('hide');
   setTimeout(function () {
-    if (!window.__ggReady) {
-      document.getElementById('err').classList.remove('hide');
-    }
-  }, 8000);
+    if (!window.__ggReady) document.getElementById('err').classList.remove('hide');
+  }, 6000);
 </script>
 
-
-<script type="module">
-/* three.js 로더 : 로컬 사본 우선, 실패 시(파일 직접 열기 등) CDN 사용 */
-let THREE;
-try {
-  THREE = await import('./vendor/three.module.min.js');
-} catch (e) {
-  THREE = await import('https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js');
-}
+<script>
+(function () {
+'use strict';
+const THREE = window.THREE;
 
 /* ============================================================
    우주 탐험 RPG  —  GG GAMES
@@ -1491,6 +1489,7 @@ function boot() {
 }
 
 boot();
+})();
 </script>
 </body>
 </html>

@@ -4,7 +4,8 @@
 다음 행성으로 떠나는 브라우저 3D RPG입니다. *My Little Universe* 스타일의
 로우폴리 구형(球形) 행성 + 자동 공격 방식으로 만들었습니다.
 
-`index.html` 하나만 열면 바로 플레이할 수 있습니다. (three.js 사용)
+`index.html`을 더블클릭하면 바로 플레이할 수 있습니다. 인터넷 연결도, 설치도
+필요 없습니다. (three.js 사본이 `vendor/` 에 함께 들어 있습니다)
 
 ## 플레이 방법
 
@@ -49,13 +50,27 @@
 
 ## 실행
 
-가장 간단한 방법 — `index.html`을 더블클릭해서 브라우저로 열기.
-(이 경우 three.js는 CDN에서 불러옵니다.)
+**1. 내려받아서 실행 (가장 간단)**
 
-완전 오프라인으로 돌리거나 로컬 사본(`vendor/three.module.min.js`)을 쓰려면
-간단한 웹 서버로 띄우면 됩니다.
+GitHub에서 `Code ▸ Download ZIP` 으로 받아 압축을 풀고, `index.html`을
+더블클릭하면 됩니다. `index.html` 과 `vendor` 폴더는 반드시 같은 위치에
+있어야 합니다.
+
+**2. 링크로 실행 (휴대폰에서도 가능)**
+
+저장소 `Settings ▸ Pages ▸ Source: Deploy from a branch` 에서 브랜치를
+`claude/space-exploration-rpg-w8ecmw` / `/ (root)` 로 지정하고 저장하면
+1~2분 뒤 다음 주소에서 플레이할 수 있습니다.
+
+```
+https://applefallingfromtree123.github.io/-/
+```
+
+**3. 로컬 서버로 실행**
 
 ```bash
+git clone https://github.com/applefallingfromtree123/-.git
+cd -
 python3 -m http.server 8000
 # 브라우저에서 http://localhost:8000
 ```
@@ -63,10 +78,15 @@ python3 -m http.server 8000
 ## 파일 구성
 
 ```
-index.html                     게임 전체 (HTML + CSS + 게임 로직)
-vendor/three.module.min.js     three.js r161 로컬 사본 (없으면 CDN 사용)
-vendor/THREE-LICENSE.txt       three.js 라이선스(MIT)
+index.html                 게임 전체 (HTML + CSS + 게임 로직)
+vendor/three.global.js     three.js r161 사본 (일반 스크립트로 변환해 file:// 에서도 동작)
+vendor/THREE-LICENSE.txt   three.js 라이선스(MIT)
 ```
+
+`vendor/three.global.js` 는 npm 패키지 `three@0.161.0` 의
+`build/three.module.min.js` 에서 맨 끝 `export{...}` 구문만 `window.THREE = {...}`
+할당으로 바꾼 파일입니다. ES 모듈은 브라우저가 파일을 직접 열었을 때(`file://`)
+CORS 정책으로 막히기 때문에, 더블클릭만으로 실행되도록 일반 스크립트로 바꿨습니다.
 
 ## 구현 메모
 
